@@ -152,5 +152,5 @@ app
   .delete(controller.deleteUser);
 
 //h3ml export l app elly hwa express 3shan afsel el server lwa7do
-//el server da elly hwa listen w DB lw feh
+//el server da elly hwa listen w DB lw feh.
 module.exports = app;
