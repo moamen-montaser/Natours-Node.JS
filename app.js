@@ -26,8 +26,9 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
-//awel get method way-2
-app.get('/api/v1/tours', (req, res) => {
+//el kam fn el gayen dwol call-back fns aw route-handler fns
+// h-declare them hena w fe el http methods such get and post
+const getAllTours = (req, res) => {
   //ana dlwa2ty b-2olo get this API w feh e3mel kda>
 
   res.status(200).json({
@@ -44,11 +45,9 @@ app.get('/api/v1/tours', (req, res) => {
       tours,
     },
   });
-});
+};
 
-// 3ayz a2olo hat el object elly el id bta3o maslan b 5
-// f ana hb3t el id da m3 el url b7es a2olo maslan hat el id 5>
-app.get('/api/v1/tours/:id/:x?', (req, res) => {
+const getTour = (req, res) => {
   //ma3na (:id) da en da variable,, momken yb2a ay 7aga
   //w ma3na (:x?) en da optional momken yb2a mawgod w momken l2
   console.log(req.params); //params dy m3naha kol el parameters el variable f-el url
@@ -73,11 +72,8 @@ app.get('/api/v1/tours/:id/:x?', (req, res) => {
       tour,
     },
   });
-});
-
-//Post y3ne create new 7aga.
-//w khaly balak nfs el url bta3 get, far2 da get w da post
-app.post('/api/v1/tours', (req, res) => {
+};
+const createTour = (req, res) => {
   //el data gwa el req la2eny bb3t mn client to server f da req
   console.log(req.body); //el body elly hb3to mn postman
 
@@ -111,24 +107,18 @@ app.post('/api/v1/tours', (req, res) => {
       });
     }
   );
-});
+};
 
-//now h3ml patch, w dy hya enny b edit prorerty f el json
-//el far2 benha w ben put en put bt-update the whole json, patch bt-edit 7aga wa7da
-//hwa msh hy3ml edit bgd la2eno by2ol wa2t 3al fady bs y3ne hwa
-//lazem y read el file w edit 3leh w y-write el file tany
-app.patch('/api/v1/tours/:id', (req, res) => {
+const updateTour = (req, res) => {
   res.status(200).json({
     status: 'Updated',
     data: {
       tour: '<updated here>',
     },
   });
-});
+};
 
-//h3ml delete now, w dy bardo msh h3del f el file nafso, ana hgrab bs
-//bs hya fe el 7a2e2a msh ht-delete 3shan lazem a-read w a-write file
-app.delete('/api/v1/tours/:id', (req, res) => {
+const deleteTour = (req, res) => {
   res.status(204).json({
     //status 204 m3nah no content(deleted)
     status: 'Updated',
@@ -137,9 +127,21 @@ app.delete('/api/v1/tours/:id', (req, res) => {
       tour: null,
     },
   });
-});
+};
 
-//1* way to make route handeler fn>
+const tourRouter = express.Router();
+//h2olo el route da lw get e3ml kaza, wlw post e3ml kaza
+//momken a3melha step by step zy=> {app.post('/api/v1/tours', createTour);}
+//w wa7da lel get
+app.route('/api/v1/tours').get(getAllTours).post(createTour);
+
+//wa7da tanya lel route el tany
+app
+  .route('/api/v1/tours/:id')
+  .get(getTour)
+  .patch(updateTour)
+  .delete(deleteTour);
+//for users
 app
   .route('/api/v1/users')
   .get(controller.getAllUsers)
