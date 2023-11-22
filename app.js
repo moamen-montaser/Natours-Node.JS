@@ -11,6 +11,7 @@ app.use(morgan('dev')); //dy middleware bt-console some info about the req
 
 app.use(express.json()); //7aga esmaha middleware 3shan req.body elly f POST
 
+app.use(express.static(`${__dirname}/public`));
 //Now ana h3ml middleware bnfsy, w hya 7aga ben el req wel res,, w fel aglab
 //btkon related b-el-request
 //3shan a3melha app.use(req,res,next) => {}

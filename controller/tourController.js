@@ -1,9 +1,36 @@
+//This file has all controllers zy middlwares
 const fs = require('fs');
 
 const tours = JSON.parse(
   //JSON.parse y3ne 7wel el json l JS object 3ady
   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 );
+
+//dy middleware bt-check el id elly f el url w takmelt el klam
+//da fy tourRoutes.js file
+exports.checkID = (req, res, next, val) => {
+  console.log(`tour id is ${val}`);
+
+  if (req.params.id * 1 > tours.length) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Invalid ID',
+    });
+  }
+  next();
+};
+
+//dy middleware bt-check el body bta3 el post method, if it has
+//a name and price or not
+exports.checkBody = (req, res, next) => {
+  if (!req.body.name || !req.body.price) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'missing name or price',
+    });
+  }
+  next();
+};
 
 exports.getAllTours = (req, res) => {
   //ana dlwa2ty b-2olo get this API w feh e3mel kda>
@@ -34,13 +61,6 @@ exports.getTour = (req, res) => {
   const id = req.params.id * 1;
   const tour = tours.find((el) => el.id === id);
 
-  //h2olo lw el id ghalat (tour not found) tl3 error
-  if (!tour) {
-    return res.status(404).json({
-      status: 'Fail',
-      mess: 'invalid id',
-    });
-  }
   // now tour dy gwaha elly 3ayzo
 
   res.status(200).json({
