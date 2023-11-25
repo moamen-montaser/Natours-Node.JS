@@ -8,7 +8,7 @@ router
   .post(userController.createUser);
 //Now h3mel 7agat f user wa7ed bs(hdelo id w y3mel el method)
 router
-  .route('/api/v1/users/:id')
+  .route('/:id')
   .get(userController.getUser)
   .patch(userController.updateUser)
   .delete(userController.deleteUser);
