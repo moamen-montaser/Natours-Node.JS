@@ -3,7 +3,7 @@ const dotenv = require('dotenv'); //enviroment
 dotenv.config({ path: './config.env' }); //mkan el file bta3 el enviroment
 
 const app = require('./app');
-console.log(process.env);
+//console.log(process.env);
 
 //connect the DB
 const DB = process.env.DATABASE.replace(
